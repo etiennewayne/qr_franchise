@@ -57,20 +57,19 @@ Route::resource('/users', App\Http\Controllers\Administrator\UserController::cla
 Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
 Route::get('/get-user-offices', [App\Http\Controllers\Administrator\UserController::class, 'getOffices']);
 
-//AppointmentType
-Route::resource('/appointment-type', App\Http\Controllers\Administrator\AppointmentTypeController::class);
-Route::get('/get-appointment-types', [App\Http\Controllers\Administrator\AppointmentTypeController::class, 'getAppointmentTypes']);
-Route::get('/get-open-appointment-types', [App\Http\Controllers\AppointmentTypeOpenController::class, 'getAppointmentTypes']);
+//Franchise
+Route::resource('/franchise', App\Http\Controllers\Administrator\FranchiseController::class);
+Route::get('/get-franchises', [App\Http\Controllers\Administrator\FranchiseController::class, 'getFranchises']);
 
 
-Route::resource('/ordinance', App\Http\Controllers\Administrator\OrdinanceController::class);
-Route::get('/get-ordinances', [App\Http\Controllers\Administrator\OrdinanceController::class, 'getOrdinances']);
+// Route::resource('/ordinance', App\Http\Controllers\Administrator\OrdinanceController::class);
+// Route::get('/get-ordinances', [App\Http\Controllers\Administrator\OrdinanceController::class, 'getOrdinances']);
 
-Route::get('/get-open-ordinances', [App\Http\Controllers\CovidUpdatesController::class, 'getOrdinances']);
+// Route::get('/get-open-ordinances', [App\Http\Controllers\CovidUpdatesController::class, 'getOrdinances']);
 
 
-Route::get('/report-track', [App\Http\Controllers\Administrator\ReportTrackController::class, 'index']);
-Route::get('/get-report-track', [App\Http\Controllers\Administrator\ReportTrackController::class, 'getReportTrack']);
+// Route::get('/report-track', [App\Http\Controllers\Administrator\ReportTrackController::class, 'index']);
+// Route::get('/get-report-track', [App\Http\Controllers\Administrator\ReportTrackController::class, 'getReportTrack']);
 
 //Offices Administrator (For office management)
 

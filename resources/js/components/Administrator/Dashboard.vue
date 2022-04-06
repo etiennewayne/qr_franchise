@@ -16,9 +16,9 @@ export default {
 </script>
 
 <style>
- .hero{
+ /* .hero{
     background-image: url("/img/bg-hero.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-} 
+}  */
 </style>

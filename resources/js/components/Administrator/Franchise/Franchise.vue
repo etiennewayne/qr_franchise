@@ -5,7 +5,7 @@
             <div class="columns">
                 <div class="column is-8 is-offset-2">
                     <div class="box">
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF APPOINTMENT TYPE</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF FRANCHISE</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.appointment_type" placeholder="Search Appointment Type"
+                                                 v-model="search.franchise_reference" placeholder="Search Appointment Type"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -58,24 +58,16 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="appointment_type_id" label="ID" v-slot="props">
+                            <b-table-column field="franchise_id" label="ID" v-slot="props">
                                 {{ props.row.appointment_type_id }}
                             </b-table-column>
 
-                            <b-table-column field="office_name" label="Office Name" v-slot="props">
-                                {{ props.row.office_name }}
+                            <b-table-column field="franchise_reference" label="Reference" v-slot="props">
+                                {{ props.row.franchise_reference }}
                             </b-table-column>
 
-                            <b-table-column field="appointment_type" label="Appointment" v-slot="props">
-                                {{ props.row.appointment_type }}
-                            </b-table-column>
-
-                            <b-table-column field="cc_time" label="Time Allocated" v-slot="props">
-                                {{ props.row.cc_time }}
-                            </b-table-column>
-
-                            <b-table-column field="max_multiple" label="Max Multiple" v-slot="props">
-                                {{ props.row.max_multiple }}
+                            <b-table-column field="description" label="Description" v-slot="props">
+                                {{ props.row.description }}
                             </b-table-column>
 
                             <b-table-column field="is_active" label="Active" v-slot="props">
@@ -96,7 +88,7 @@
                         </b-table>
 
                         <div class="buttons mt-3">
-                            <b-button @click="openModal" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
+                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
                         </div>
 
                     </div>
@@ -202,7 +194,7 @@ export default {
             data: [],
             total: 0,
             loading: false,
-            sortField: 'appointment_type_id',
+            sortField: 'franchise_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 5,
@@ -212,19 +204,13 @@ export default {
             global_id : 0,
 
             search: {
-                appointment_type: '',
+                franchise_reference: '',
             },
 
             isModalCreate: false,
 
-            fields: {
-                office_id: 0,
-                appointment_type: '',
-
-            },
+            fields: {},
             errors: {},
-
-            offices: [],
 
             btnClass: {
                 'is-success': true,
@@ -248,7 +234,7 @@ export default {
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-appointment-types?${params}`)
+            axios.get(`/get-franchises?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -296,11 +282,7 @@ export default {
 
         },
 
-        loadOffices(){
-            axios.get('/load-offices').then(res=>{
-                this.offices = res.data;
-            })
-        },
+     
 
 
         //alert box ask for deletion
@@ -316,7 +298,7 @@ export default {
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/appointment-type/' + delete_id).then(res => {
+            axios.delete('/franchise/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -333,14 +315,15 @@ export default {
 
 
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/appointment-type/'+data_id).then(res=>{
+            axios.get('/franchise/'+data_id).then(res=>{
                 this.fields = res.data[0];
             });
         },
 
         clearFields(){
             this.fields = {
-                appointment_type: '',
+                franchise_code: null,
+                description: null,
             };
         },
 
@@ -348,7 +331,7 @@ export default {
         submit: function(){
             if(this.global_id > 0){
                 //update
-                axios.put('/appointment-type/'+this.global_id, this.fields).then(res=>{
+                axios.put('/franchise/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -369,7 +352,7 @@ export default {
                 })
             }else{
                 //INSERT HERE
-                axios.post('/appointment-type', this.fields).then(res=>{
+                axios.post('franchise', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
