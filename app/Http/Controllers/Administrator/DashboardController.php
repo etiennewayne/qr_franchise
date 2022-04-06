@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\AppointmentType;
 
 
-class AdminDashboardController extends Controller
+class DashboardController extends Controller
 {
     //
     public function __construct(){
@@ -16,10 +16,7 @@ class AdminDashboardController extends Controller
     }
 
     public function index(){
-        return view('administrator.admin-dashboard');
+        return view('administrator.dashboard');
     }
-
-
-
 
 }

@@ -17,12 +17,7 @@ use Illuminate\Support\Facades\Session;
 */
 
 Route::get('/', function () {
-    if(Auth::check()){
-        $user = Auth::user();
-        return view('welcome')
-            ->with('user', $user->only(['lname', 'fname', 'mname', 'suffix', 'role', 'remark', 'office_id']));
-    }
-    return view('welcome');
+    return view('login');
 });
 
 Auth::routes([
@@ -56,7 +51,7 @@ Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'l
 
 
 /*     ADMINSITRATOR          */
-Route::resource('/dashboard-admin', App\Http\Controllers\Administrator\AdminDashboardController::class);
+Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardController::class);
 
 Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
 Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);

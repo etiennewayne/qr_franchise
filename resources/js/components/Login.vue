@@ -2,14 +2,16 @@
     <div class="login-wrapper">
         <div class="login">
             <form @submit.prevent="submit">
-                <div class="panel">
+                <div class="panel is-primary">
                     <div class="panel-heading">
                         SECURITY CHECK
                     </div>
 
                     <div class="panel-body">
-                        <b-field label="Email" label-position="on-border">
-                            <b-input type="text" v-model="fields.username" placeholder="Email" />
+                        <b-field label="Username" label-position="on-border"
+                            :type="this.errors.username ? 'is-danger':''"
+                            :message="this.errors.username ? this.errors.username[0] : ''">
+                            <b-input type="text" v-model="fields.username" placeholder="Username" />
                         </b-field>
 
                         <b-field label="Password" label-position="on-border">
@@ -17,7 +19,7 @@
                         </b-field>
 
                         <div class="buttons">
-                            <b-button type="is-success">LOGIN</b-button>
+                            <button :class="btnClass">LOGIN</button>
                         </div>
                     </div>
                 </div>
@@ -36,14 +38,31 @@ export default {
                 username: '',
                 password: '',
             },
+
+            btnClass: {
+                'is-primary': true,
+                'is-loading': false,
+                'button': true
+            },
+
+            errors: {},
+
         }
     },
 
     methods: {
         submit: function(){
-            axios.post('/login').then(res=>{
+            this.btnClass['is-loading'] = true;
+
+            axios.post('/login', this.fields).then(res=>{
+            this.btnClass['is-loading'] = false;
+
                 console.log(res.data)
-               // window.location = '/dashboard';
+                window.location = '/dashboard';
+            }).catch(err=>{
+            this.btnClass['is-loading'] = false;
+                this.errors = err.response.data.errors;
+
             })
         }
     }
@@ -61,6 +80,10 @@ export default {
 
     .login{
         width: 500px;
+    }
+
+    .panel-body{
+        margin: 15px;
     }
 
 

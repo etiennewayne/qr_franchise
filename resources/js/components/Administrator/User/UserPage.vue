@@ -229,8 +229,7 @@
                                              :type="this.errors.role ? 'is-danger':''"
                                              :message="this.errors.role ? this.errors.role[0] : ''">
                                         <b-select v-model="fields.role" expanded>
-                                            <option value="ADMIN">ADMINISTRATOR</option>
-                                            <option value="OFFICE">OFFICE</option>
+                                            <option value="ADMINISTRATOR">ADMINISTRATOR</option>
                                             <option value="USER">USER</option>
                                         </b-select>
                                     </b-field>
@@ -294,7 +293,7 @@
                                 <div class="column">
                                     <b-field label="Street" label-position="on-border">
                                         <b-input v-model="fields.street"
-                                                 placeholder="Street" required>
+                                                 placeholder="Street">
                                         </b-input>
                                     </b-field>
                                 </div>
