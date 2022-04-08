@@ -8039,7 +8039,151 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      fields: {},
+      errors: {},
+      provinces: [],
+      cities: [],
+      barangays: []
+    };
+  },
+  methods: {
+    loadProvince: function loadProvince() {
+      var _this = this;
+
+      axios.get('/load-provinces').then(function (res) {
+        _this.provinces = res.data;
+      });
+    },
+    loadCity: function loadCity() {
+      var _this2 = this;
+
+      axios.get('/load-cities?prov=' + this.fields.province).then(function (res) {
+        _this2.cities = res.data;
+      });
+    },
+    loadBarangay: function loadBarangay() {
+      var _this3 = this;
+
+      axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
+        _this3.barangays = res.data;
+      });
+    },
+    submit: function submit() {
+      var _this4 = this;
+
+      axios.post('/franchise', this.fields).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this4.$buefy.dialog.alert({
+            message: 'Franchise save successfully.',
+            type: 'is-success',
+            title: 'SAVED!',
+            onConfirm: function onConfirm() {
+              window.location = '/franchise';
+            }
+          });
+        }
+      })["catch"](function (err) {
+        _this4.errors = err.response.data.errors;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.loadProvince();
+  }
+});
 
 /***/ }),
 
@@ -30986,7 +31130,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.panel-content{\n    padding: 15px;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.panel-content{\n    padding: 15px;\n    border-radius: 5px;\n    border: 1px solid rgb(209, 209, 209);\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34855,7 +34999,7 @@ var render = function () {
                     staticClass: "is-flex is-justify-content-center mb-2",
                     staticStyle: { "font-size": "20px", "font-weight": "bold" },
                   },
-                  [_vm._v("LIST OF FRANCHISE")]
+                  [_vm._v("FRANCHISES")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "level" }, [
@@ -34990,7 +35134,7 @@ var render = function () {
                                     _c("b-button", {
                                       attrs: {
                                         type: "is-primary",
-                                        "icon-right": "account-filter",
+                                        "icon-right": "feature-search-outline",
                                       },
                                       on: { click: _vm.loadAsyncData },
                                     }),
@@ -35493,34 +35637,102 @@ var render = function () {
     _c("div", { staticClass: "section" }, [
       _c("div", { staticClass: "columns is-centered" }, [
         _c("div", { staticClass: "column is-8" }, [
-          _c("div", { staticClass: "panel" }, [
-            _c(
-              "div",
-              { staticClass: "panel-content" },
-              [
-                _c("h1", { staticClass: "title is-5" }, [
-                  _vm._v("NEW FRANCHISE"),
-                ]),
-                _vm._v(" "),
-                _c("hr"),
-                _vm._v(" "),
+          _c(
+            "form",
+            {
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.submit.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "panel" }, [
                 _c(
-                  "b-field",
-                  { attrs: { grouped: "" } },
+                  "div",
+                  { staticClass: "panel-content" },
                   [
+                    _c("h1", { staticClass: "title is-5" }, [
+                      _vm._v("NEW FRANCHISE"),
+                    ]),
+                    _vm._v(" "),
+                    _c("hr"),
+                    _vm._v(" "),
                     _c(
                       "b-field",
-                      {
-                        attrs: {
-                          label: "Date Acquired",
-                          "label-position": "on-border",
-                          expanded: "",
-                        },
-                      },
+                      { attrs: { grouped: "" } },
                       [
-                        _c("b-datepicker", {
-                          attrs: { placeholder: "Date acquired" },
-                        }),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Date Acquired",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.date_acquired
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.date_acquired
+                                ? this.errors.date_acquired[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-datepicker", {
+                              attrs: {
+                                placeholder: "Date acquired",
+                                required: "",
+                              },
+                              model: {
+                                value: _vm.fields.date_acquired,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "date_acquired", $$v)
+                                },
+                                expression: "fields.date_acquired",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Franchise Reference",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.franchise_reference
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.franchise_reference
+                                ? this.errors.franchise_reference[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                type: "text",
+                                placeholder: "Franchise Reference...",
+                                required: "",
+                              },
+                              model: {
+                                value: _vm.fields.franchise_reference,
+                                callback: function ($$v) {
+                                  _vm.$set(
+                                    _vm.fields,
+                                    "franchise_reference",
+                                    $$v
+                                  )
+                                },
+                                expression: "fields.franchise_reference",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
                       ],
                       1
                     ),
@@ -35529,51 +35741,443 @@ var render = function () {
                       "b-field",
                       {
                         attrs: {
-                          label: "Franchise Reference",
+                          label: "Name of Operator",
                           "label-position": "on-border",
-                          expanded: "",
+                          type: this.errors.operator_name ? "is-danger" : "",
+                          message: this.errors.operator_name
+                            ? this.errors.operator_name[0]
+                            : "",
                         },
                       },
                       [
                         _c("b-input", {
                           attrs: {
                             type: "text",
-                            placeholder: "Franchise Reference...",
+                            placeholder: "Name of Operator",
                             required: "",
+                          },
+                          model: {
+                            value: _vm.fields.operator_name,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.fields, "operator_name", $$v)
+                            },
+                            expression: "fields.operator_name",
                           },
                         }),
                       ],
                       1
                     ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      { attrs: { grouped: "" } },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Province",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.province ? "is-danger" : "",
+                              message: this.errors.province
+                                ? this.errors.province[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c(
+                              "b-select",
+                              {
+                                attrs: { expanded: "" },
+                                on: { input: _vm.loadCity },
+                                model: {
+                                  value: _vm.fields.province,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "province", $$v)
+                                  },
+                                  expression: "fields.province",
+                                },
+                              },
+                              _vm._l(_vm.provinces, function (item, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: { value: item.provCode },
+                                  },
+                                  [_vm._v(_vm._s(item.provDesc))]
+                                )
+                              }),
+                              0
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "City",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.city ? "is-danger" : "",
+                              message: this.errors.city
+                                ? this.errors.city[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c(
+                              "b-select",
+                              {
+                                attrs: { expanded: "" },
+                                on: { input: _vm.loadBarangay },
+                                model: {
+                                  value: _vm.fields.city,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "city", $$v)
+                                  },
+                                  expression: "fields.city",
+                                },
+                              },
+                              _vm._l(_vm.cities, function (item, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: { value: item.citymunCode },
+                                  },
+                                  [_vm._v(_vm._s(item.citymunDesc))]
+                                )
+                              }),
+                              0
+                            ),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      { attrs: { grouped: "" } },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Barangay",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.barangay ? "is-danger" : "",
+                              message: this.errors.barangay
+                                ? this.errors.barangay[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c(
+                              "b-select",
+                              {
+                                attrs: { expanded: "" },
+                                model: {
+                                  value: _vm.fields.barangay,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "barangay", $$v)
+                                  },
+                                  expression: "fields.barangay",
+                                },
+                              },
+                              _vm._l(_vm.barangays, function (item, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: { value: item.brgyCode },
+                                  },
+                                  [_vm._v(_vm._s(item.brgyDesc))]
+                                )
+                              }),
+                              0
+                            ),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Street",
+                              "label-position": "on-border",
+                              expanded: "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: { expanded: "", placeholder: "Street" },
+                              model: {
+                                value: _vm.fields.street,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "street", $$v)
+                                },
+                                expression: "fields.street",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      { attrs: { grouped: "" } },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Vehicle Reference",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.vehicle_reference
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.vehicle_reference
+                                ? this.errors.vehicle_reference[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                type: "text",
+                                placeholder: "Vehicle Reference",
+                                expanded: "",
+                                required: "",
+                              },
+                              model: {
+                                value: _vm.fields.vehicle_reference,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "vehicle_reference", $$v)
+                                },
+                                expression: "fields.vehicle_reference",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Chassis Reference",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.chassis_reference
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.chassis_reference
+                                ? this.errors.chassis_reference[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                expanded: "",
+                                required: "",
+                                placeholder: "Chassis Reference",
+                              },
+                              model: {
+                                value: _vm.fields.chassis_reference,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "chassis_reference", $$v)
+                                },
+                                expression: "fields.chassis_reference",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      { attrs: { grouped: "" } },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Make",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.make ? "is-danger" : "",
+                              message: this.errors.make
+                                ? this.errors.make[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                type: "text",
+                                placeholder: "Make",
+                                expanded: "",
+                                required: "",
+                              },
+                              model: {
+                                value: _vm.fields.make,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "make", $$v)
+                                },
+                                expression: "fields.make",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Plate No.",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.plate_no ? "is-danger" : "",
+                              message: this.errors.plate_no
+                                ? this.errors.plate_no[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                expanded: "",
+                                required: "",
+                                placeholder: "Plate No.",
+                              },
+                              model: {
+                                value: _vm.fields.plate_no,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "plate_no", $$v)
+                                },
+                                expression: "fields.plate_no",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "b-field",
+                      { attrs: { grouped: "" } },
+                      [
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Route Opetation",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.route_operation
+                                ? "is-danger"
+                                : "",
+                              message: this.errors.route_operation
+                                ? this.errors.route_operation[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                type: "text",
+                                placeholder: "Route Opetation",
+                                expanded: "",
+                                required: "",
+                              },
+                              model: {
+                                value: _vm.fields.route_operation,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "route_operation", $$v)
+                                },
+                                expression: "fields.route_operation",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "b-field",
+                          {
+                            attrs: {
+                              label: "Cab No.",
+                              "label-position": "on-border",
+                              expanded: "",
+                              type: this.errors.cab_no ? "is-danger" : "",
+                              message: this.errors.cab_no
+                                ? this.errors.cab_no[0]
+                                : "",
+                            },
+                          },
+                          [
+                            _c("b-input", {
+                              attrs: {
+                                expanded: "",
+                                required: "",
+                                placeholder: "Cab No.",
+                              },
+                              model: {
+                                value: _vm.fields.cab_no,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "cab_no", $$v)
+                                },
+                                expression: "fields.cab_no",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _vm._m(0),
                   ],
                   1
                 ),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Name of Operator",
-                      "label-position": "on-border",
-                    },
-                  },
-                  [
-                    _c("b-input", {
-                      attrs: { type: "text", placeholder: "Name of Operator" },
-                    }),
-                  ],
-                  1
-                ),
-              ],
-              1
-            ),
-          ]),
+              ]),
+            ]
+          ),
         ]),
       ]),
     ]),
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "buttons" }, [
+      _c("button", { staticClass: "button is-primary" }, [_vm._v("SUBMIT")]),
+    ])
+  },
+]
 render._withStripped = true
 
 

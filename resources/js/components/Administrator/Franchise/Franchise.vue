@@ -5,7 +5,7 @@
             <div class="columns">
                 <div class="column is-8 is-offset-2">
                     <div class="box">
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF FRANCHISE</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">FRANCHISES</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -32,7 +32,7 @@
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                            <b-button type="is-primary" icon-right="feature-search-outline" @click="loadAsyncData"/>
                                              </b-tooltip>
                                         </p>
                                     </b-field>
