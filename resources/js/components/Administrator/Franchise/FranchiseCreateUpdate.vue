@@ -95,10 +95,10 @@
                                 </b-field>
 
                                 <b-field grouped>
-                                    <b-field label="Route Opetation" label-position="on-border" expanded
+                                    <b-field label="Route Operation" label-position="on-border" expanded
                                             :type="this.errors.route_operation ? 'is-danger':''"
                                             :message="this.errors.route_operation ? this.errors.route_operation[0] : ''">
-                                        <b-input type="text" v-model="fields.route_operation" placeholder="Route Opetation" expanded required></b-input>
+                                        <b-input type="text" v-model="fields.route_operation" placeholder="Route Operation" expanded required></b-input>
                                     </b-field>
                                     <b-field label="Cab No." label-position="on-border" expanded
                                         :type="this.errors.cab_no ? 'is-danger':''"
@@ -125,6 +125,8 @@
 
 <script>
 export default {
+
+    props: ['dataId'],
     data(){
         return{
             fields: {},
@@ -133,6 +135,8 @@ export default {
             provinces: [],
             cities: [],
             barangays: [],
+
+            id: 0,
         }
 
     },
@@ -159,25 +163,58 @@ export default {
 
 
         submit: function(){
-            axios.post('/franchise', this.fields).then(res=>{
-                if(res.data.status === 'saved'){
-                    this.$buefy.dialog.alert({
-                        message: 'Franchise save successfully.',
-                        type: 'is-success',
-                        title: 'SAVED!',
-                        onConfirm : ()=>{
-                            window.location = '/franchise';
-                        }
-                    })
-                }
-            }).catch(err=>{
-                this.errors = err.response.data.errors;
+            if(this.id>0){
+                //update
+                axios.post('/franchise/' + this.id, this.fields).then(res=>{
+                    if(res.data.status === 'updated'){
+                        this.$buefy.dialog.alert({
+                            message: 'Franchise save updated.',
+                            type: 'is-success',
+                            title: 'UPDATED!',
+                            onConfirm : ()=>{
+                                window.location = '/franchise';
+                            }
+                        })
+                    }
+                }).catch(err=>{
+                    this.errors = err.response.data.errors;
+                })
+            }else{
+                //insert
+                axios.post('/franchise', this.fields).then(res=>{
+                    if(res.data.status === 'saved'){
+                        this.$buefy.dialog.alert({
+                            message: 'Franchise save successfully.',
+                            type: 'is-success',
+                            title: 'SAVED!',
+                            onConfirm : ()=>{
+                                window.location = '/franchise';
+                            }
+                        })
+                    }
+                }).catch(err=>{
+                    this.errors = err.response.data.errors;
+                })
+            }
+        },
+
+        getData: function(){
+            axios.get('/get-franchise').then(res=>{
+                this.fields = res.data;
             })
+        },
+
+        initData: function(){
+            this.id = JSON.parse(this.dataId);
+            if(this.id>0){
+                this.getData();
+            }
         }
     },
 
     mounted() {
         this.loadProvince();
+        this.initData();
     }
 
 }

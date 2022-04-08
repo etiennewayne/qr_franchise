@@ -1,7 +1,5 @@
-
-
 <?php $__env->startSection('content'); ?>
-    <franchise-create-update></franchise-create-update>
+    <franchise-create-update data-id="<?php echo e($dataid); ?>"></franchise-create-update>
 <?php $__env->stopSection(); ?>
 
 

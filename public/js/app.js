@@ -7765,49 +7765,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AppointmentType",
   data: function data() {
@@ -7841,7 +7798,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "type=".concat(this.search.appointment_type), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "type=".concat(this.search.franchise_reference), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-franchises?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -7986,7 +7943,6 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.loadOffices();
     this.loadAsyncData();
   }
 });
@@ -8130,13 +8086,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['dataId'],
   data: function data() {
     return {
       fields: {},
       errors: {},
       provinces: [],
       cities: [],
-      barangays: []
+      barangays: [],
+      id: 0
     };
   },
   methods: {
@@ -8164,24 +8122,58 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this4 = this;
 
-      axios.post('/franchise', this.fields).then(function (res) {
-        if (res.data.status === 'saved') {
-          _this4.$buefy.dialog.alert({
-            message: 'Franchise save successfully.',
-            type: 'is-success',
-            title: 'SAVED!',
-            onConfirm: function onConfirm() {
-              window.location = '/franchise';
-            }
-          });
-        }
-      })["catch"](function (err) {
-        _this4.errors = err.response.data.errors;
+      if (this.id > 0) {
+        //update
+        axios.post('/franchise/' + this.id, this.fields).then(function (res) {
+          if (res.data.status === 'updated') {
+            _this4.$buefy.dialog.alert({
+              message: 'Franchise save updated.',
+              type: 'is-success',
+              title: 'UPDATED!',
+              onConfirm: function onConfirm() {
+                window.location = '/franchise';
+              }
+            });
+          }
+        })["catch"](function (err) {
+          _this4.errors = err.response.data.errors;
+        });
+      } else {
+        //insert
+        axios.post('/franchise', this.fields).then(function (res) {
+          if (res.data.status === 'saved') {
+            _this4.$buefy.dialog.alert({
+              message: 'Franchise save successfully.',
+              type: 'is-success',
+              title: 'SAVED!',
+              onConfirm: function onConfirm() {
+                window.location = '/franchise';
+              }
+            });
+          }
+        })["catch"](function (err) {
+          _this4.errors = err.response.data.errors;
+        });
+      }
+    },
+    getData: function getData() {
+      var _this5 = this;
+
+      axios.get('/get-franchise').then(function (res) {
+        _this5.fields = res.data;
       });
+    },
+    initData: function initData() {
+      this.id = JSON.parse(this.dataId);
+
+      if (this.id > 0) {
+        this.getData();
+      }
     }
   },
   mounted: function mounted() {
     this.loadProvince();
+    this.initData();
   }
 });
 
@@ -35154,6 +35146,26 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c(
+                  "div",
+                  { staticClass: "buttons mt-3" },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        staticClass: "is-success",
+                        attrs: {
+                          tag: "a",
+                          href: "/franchise/create",
+                          "icon-right": "account-arrow-up-outline",
+                        },
+                      },
+                      [_vm._v("NEW")]
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
                   "b-table",
                   {
                     attrs: {
@@ -35182,7 +35194,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.appointment_type_id) +
+                                  _vm._s(props.row.franchise_id) +
                                   "\n                        "
                               ),
                             ]
@@ -35322,26 +35334,6 @@ var render = function () {
                   ],
                   1
                 ),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "buttons mt-3" },
-                  [
-                    _c(
-                      "b-button",
-                      {
-                        staticClass: "is-success",
-                        attrs: {
-                          tag: "a",
-                          href: "/franchise/create",
-                          "icon-right": "account-arrow-up-outline",
-                        },
-                      },
-                      [_vm._v("NEW")]
-                    ),
-                  ],
-                  1
-                ),
               ],
               1
             ),
@@ -35399,182 +35391,7 @@ var render = function () {
                 ]),
                 _vm._v(" "),
                 _c("section", { staticClass: "modal-card-body" }, [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Office",
-                                type: this.errors.office_id ? "is-danger" : "",
-                                message: this.errors.office_id
-                                  ? this.errors.office_id[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    placeholder: "Office",
-                                    required: "",
-                                  },
-                                  model: {
-                                    value: _vm.fields.office_id,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "office_id", $$v)
-                                    },
-                                    expression: "fields.office_id",
-                                  },
-                                },
-                                _vm._l(_vm.offices, function (item, index) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: index,
-                                      domProps: { value: item.office_id },
-                                    },
-                                    [_vm._v(_vm._s(item.office_name))]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Appointment Type",
-                                type: this.errors.appointment_type
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.appointment_type
-                                  ? this.errors.appointment_type[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  placeholder: "Appointment Type",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.appointment_type,
-                                  callback: function ($$v) {
-                                    _vm.$set(
-                                      _vm.fields,
-                                      "appointment_type",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "fields.appointment_type",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Allocated Time(Minute(s))",
-                                type: this.errors.cc_time ? "is-danger" : "",
-                                message: this.errors.cc_time
-                                  ? this.errors.cc_time[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-numberinput", {
-                                attrs: {
-                                  controls: false,
-                                  placeholder: "",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.cc_time,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "cc_time", $$v)
-                                  },
-                                  expression: "fields.cc_time",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "No of multiple",
-                                type: this.errors.max_multiple
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.max_multiple
-                                  ? this.errors.max_multiple[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-numberinput", {
-                                attrs: {
-                                  max: "100",
-                                  controls: false,
-                                  placeholder: "No of multiple",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.max_multiple,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "max_multiple", $$v)
-                                  },
-                                  expression: "fields.max_multiple",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                  ]),
+                  _c("div", {}),
                 ]),
                 _vm._v(" "),
                 _c(
@@ -36090,7 +35907,7 @@ var render = function () {
                           "b-field",
                           {
                             attrs: {
-                              label: "Route Opetation",
+                              label: "Route Operation",
                               "label-position": "on-border",
                               expanded: "",
                               type: this.errors.route_operation
@@ -36105,7 +35922,7 @@ var render = function () {
                             _c("b-input", {
                               attrs: {
                                 type: "text",
-                                placeholder: "Route Opetation",
+                                placeholder: "Route Operation",
                                 expanded: "",
                                 required: "",
                               },

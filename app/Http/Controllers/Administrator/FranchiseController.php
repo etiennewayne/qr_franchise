@@ -38,7 +38,8 @@ class FranchiseController extends Controller
 
 
     public function create(){
-        return view('administrator.franchise-create-update');
+        return view('administrator.franchise-create-update')
+            ->with('dataid', 0);
     }
 
     public function store(Request $req){
@@ -47,7 +48,12 @@ class FranchiseController extends Controller
         $user = Auth::user();
 
         $req->validate([
-            'franchise_reference' => ['required', 'unique:franchises'],
+            'franchise_reference' => ['required'],
+            'date_acquired' => ['required'],
+            'operator_name' => ['required'],
+            'vehicle_reference' => ['required'],
+            'chassis_reference' => ['required'],
+            'plate_no' => ['required'],
         ]);
 
         $date =  $req->date_acquired;
@@ -81,16 +87,39 @@ class FranchiseController extends Controller
         ],200);
     }
 
+    public function edit($id){
+        return view('administrator.franchise-create-update')
+            ->with('dataid', $id);
+    }
+
     public function update(Request $req, $id){
         $user = Auth::user();
 
-        $validate = $req->validate([
-            'franchise_reference' => ['required','unique:franchises,franchise_reference,' .$id .',franchise_id'],
+        $req->validate([
+            'franchise_reference' => ['required'],
+            'date_acquired' => ['required'],
+            'operator_name' => ['required'],
+            'vehicle_reference' => ['required'],
+            'chassis_reference' => ['required'],
+            'plate_no' => ['required'],
         ]);
 
         $data = Franchise::find($id);
         $data->franchise_reference = $req->franchise_reference;
-        $data->description = strtoupper($req->description);
+        $data->date_acquired = strtoupper($req->date_acquired);
+        $data->operator_name = strtoupper($req->operator_name);
+
+        $data->province = strtoupper($req->province);
+        $data->city = strtoupper($req->city);
+        $data->barangay = strtoupper($req->barangay);
+        $data->street = strtoupper($req->street);
+        $data->vehicle_reference = strtoupper($req->vehicle_reference);
+        $data->chassis_reference = strtoupper($req->chassis_reference);
+        $data->make = strtoupper($req->make);
+        $data->plate_no = strtoupper($req->plate_no);
+        $data->route_operation = strtoupper($req->route_operation);
+        $data->cab_no = strtoupper($req->cab_no);
+        $data->remarks = strtoupper($req->remarks);
         $data->sysuser = strtoupper($user->username);
         $data->save();
 

@@ -40,7 +40,9 @@
                             </div>
                         </div>
 
-
+                        <div class="buttons mt-3">
+                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
+                        </div>
 
                         <b-table
                             :data="data"
@@ -59,7 +61,7 @@
                             @sort="onSort">
 
                             <b-table-column field="franchise_id" label="ID" v-slot="props">
-                                {{ props.row.appointment_type_id }}
+                                {{ props.row.franchise_id }}
                             </b-table-column>
 
                             <b-table-column field="franchise_reference" label="Reference" v-slot="props">
@@ -87,9 +89,7 @@
 
                         </b-table>
 
-                        <div class="buttons mt-3">
-                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
-                        </div>
+
 
                     </div>
                 </div><!--close column-->
@@ -122,50 +122,7 @@
                     <section class="modal-card-body">
                         <div class="">
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Office"
-                                             :type="this.errors.office_id ? 'is-danger':''"
-                                             :message="this.errors.office_id ? this.errors.office_id[0] : ''">
-                                        <b-select v-model="fields.office_id" placeholder="Office" required>
-                                            <option v-for="(item, index) in offices" :key="index" :value="item.office_id">{{ item.office_name }}</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Appointment Type"
-                                             :type="this.errors.appointment_type ? 'is-danger':''"
-                                             :message="this.errors.appointment_type ? this.errors.appointment_type[0] : ''">
-                                        <b-input v-model="fields.appointment_type"
-                                                 placeholder="Appointment Type" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Allocated Time(Minute(s))"
-                                             :type="this.errors.cc_time ? 'is-danger':''"
-                                             :message="this.errors.cc_time ? this.errors.cc_time[0] : ''">
-                                        <b-numberinput v-model="fields.cc_time" :controls="false"
-                                                           placeholder="" required>
-                                        </b-numberinput>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="No of multiple"
-                                             :type="this.errors.max_multiple ? 'is-danger':''"
-                                             :message="this.errors.max_multiple ? this.errors.max_multiple[0] : ''">
-                                        <b-numberinput v-model="fields.max_multiple" max="100" :controls="false" placeholder="No of multiple" required>
-                                        </b-numberinput>
-                                    </b-field>
-                                </div>
-                            </div>
                         </div>
                     </section>
                     <footer class="modal-card-foot">
@@ -228,7 +185,7 @@ export default {
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `type=${this.search.appointment_type}`,
+                `type=${this.search.franchise_reference}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -282,7 +239,7 @@ export default {
 
         },
 
-     
+
 
 
         //alert box ask for deletion
@@ -378,7 +335,6 @@ export default {
     },
 
     mounted() {
-        this.loadOffices();
         this.loadAsyncData();
     }
 
