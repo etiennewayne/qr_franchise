@@ -79,10 +79,10 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.appointment_type_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.franchise_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.appointment_type_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.franchise_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -267,14 +267,15 @@ export default {
         //update code here
         getData: function(data_id){
             this.clearFields();
-            this.global_id = data_id;
+            /*this.global_id = data_id;
             this.isModalCreate = true;
 
 
             //nested axios for getting the address 1 by 1 or request by request
             axios.get('/franchise/'+data_id).then(res=>{
                 this.fields = res.data[0];
-            });
+            });*/
+            window.location = '/franchise/' + data_id + '/edit';
         },
 
         clearFields(){

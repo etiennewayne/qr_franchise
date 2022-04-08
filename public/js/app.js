@@ -7872,15 +7872,15 @@ __webpack_require__.r(__webpack_exports__);
     },
     //update code here
     getData: function getData(data_id) {
-      var _this4 = this;
-
       this.clearFields();
-      this.global_id = data_id;
-      this.isModalCreate = true; //nested axios for getting the address 1 by 1 or request by request
+      /*this.global_id = data_id;
+      this.isModalCreate = true;
+        //nested axios for getting the address 1 by 1 or request by request
+      axios.get('/franchise/'+data_id).then(res=>{
+          this.fields = res.data[0];
+      });*/
 
-      axios.get('/franchise/' + data_id).then(function (res) {
-        _this4.fields = res.data[0];
-      });
+      window.location = '/franchise/' + data_id + '/edit';
     },
     clearFields: function clearFields() {
       this.fields = {
@@ -7889,54 +7889,54 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     submit: function submit() {
-      var _this5 = this;
+      var _this4 = this;
 
       if (this.global_id > 0) {
         //update
         axios.put('/franchise/' + this.global_id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
-            _this5.$buefy.dialog.alert({
+            _this4.$buefy.dialog.alert({
               title: 'UPDATED!',
               message: 'Successfully updated.',
               type: 'is-success',
               onConfirm: function onConfirm() {
-                _this5.loadAsyncData();
+                _this4.loadAsyncData();
 
-                _this5.clearFields();
+                _this4.clearFields();
 
-                _this5.global_id = 0;
-                _this5.isModalCreate = false;
+                _this4.global_id = 0;
+                _this4.isModalCreate = false;
               }
             });
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this4.errors = err.response.data.errors;
           }
         });
       } else {
         //INSERT HERE
         axios.post('franchise', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
-            _this5.$buefy.dialog.alert({
+            _this4.$buefy.dialog.alert({
               title: 'SAVED!',
               message: 'Successfully saved.',
               type: 'is-success',
               confirmText: 'OK',
               onConfirm: function onConfirm() {
-                _this5.isModalCreate = false;
+                _this4.isModalCreate = false;
 
-                _this5.loadAsyncData();
+                _this4.loadAsyncData();
 
-                _this5.clearFields();
+                _this4.clearFields();
 
-                _this5.global_id = 0;
+                _this4.global_id = 0;
               }
             });
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this4.errors = err.response.data.errors;
           }
         });
       }
@@ -35290,7 +35290,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.getData(
-                                              props.row.appointment_type_id
+                                              props.row.franchise_id
                                             )
                                           },
                                         },
@@ -35315,7 +35315,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.appointment_type_id
+                                              props.row.franchise_id
                                             )
                                           },
                                         },
