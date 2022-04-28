@@ -126,7 +126,7 @@
 <script>
 export default {
 
-    props: ['dataId'],
+    props: ['dataId', 'propData'],
     data(){
         return{
             fields: {},
@@ -165,7 +165,7 @@ export default {
         submit: function(){
             if(this.id>0){
                 //update
-                axios.post('/franchise/' + this.id, this.fields).then(res=>{
+                axios.put('/franchise/' + this.id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             message: 'Franchise save updated.',
@@ -207,7 +207,33 @@ export default {
         initData: function(){
             this.id = JSON.parse(this.dataId);
             if(this.id>0){
-                this.getData();
+               
+                let tempData = JSON.parse(this.propData);
+
+                this.fields.date_acquired = new Date(tempData.date_acquired);
+                this.fields.franchise_reference = tempData.franchise_reference;
+                this.fields.operator_name = tempData.operator_name;
+                this.fields.province = tempData.provCode;
+
+                axios.get('/load-cities?prov='+tempData.provCode).then(res=>{
+                    this.cities = res.data;
+                    console.log(res.data[0]);
+                    this.fields.city = tempData.citymunCode;
+
+                     axios.get('/load-barangays?prov='+tempData.provCode + '&city_code=' + tempData.citymunCode).then(res=>{
+                         this.barangays = res.data;
+                         this.fields.barangay = tempData.brgyCode;
+                     });
+                });
+
+                this.fields.street = tempData.street;
+                this.fields.vehicle_reference = tempData.vehicle_reference;
+                this.fields.chassis_reference = tempData.chassis_reference;
+                this.fields.make = tempData.make;
+                this.fields.plate_no = tempData.plate_no;
+                this.fields.route_operation = tempData.route_operation;
+                this.fields.cab_no = tempData.cab_no;
+                this.fields.remarks = tempData.remarks;
             }
         }
     },

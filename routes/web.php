@@ -21,7 +21,10 @@ Route::get('/', function () {
 });
 
 Auth::routes([
-    'login' => 'false'
+    'login' => false,
+    'register' => false, // Registration Routes...
+    'reset' => false, // Password Reset Routes...
+    'verify' => false, // Email Verification Routes...
 ]);
 
 
@@ -31,14 +34,6 @@ Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logou
 Route::get('/sample',[App\Http\Controllers\SampleController::class,'index']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Route::get('/sign-up', [App\Http\Controllers\SignUpController::class, 'index']);
-
-Route::get('/covid-updates', [App\Http\Controllers\CovidUpdatesController::class, 'index']);
-
-Route::post('/sign-up', [App\Http\Controllers\SignUpController::class, 'store']);
-
-
 
 
 
@@ -142,6 +137,4 @@ Route::get('/applogout', function(Request $req){
     \Auth::logout();
     $req->session()->invalidate();
     $req->session()->regenerateToken();
-
-
 });

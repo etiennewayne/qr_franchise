@@ -2,8 +2,8 @@
     <div>
         <div class="section">
 
-            <div class="columns">
-                <div class="column is-8 is-offset-2">
+            <div class="columns is-centered">
+                <div class="column is-10">
                     <div class="box">
                         <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">FRANCHISES</div>
 
@@ -19,21 +19,42 @@
                                     <b-select v-model="sortOrder" @input="loadAsyncData">
                                         <option value="asc">ASC</option>
                                         <option value="desc">DESC</option>
-
                                     </b-select>
                                 </b-field>
                             </div>
 
                             <div class="level-right">
+                                
+                            </div>
+                        </div>
+
+
+                        <div class="level">
+                            <div class="level-left">
                                 <div class="level-item">
-                                    <b-field label="Search">
+                                    <b-field label="Search Reference">
                                         <b-input type="text"
-                                                 v-model="search.franchise_reference" placeholder="Search Appointment Type"
-                                                 @keyup.native.enter="loadAsyncData"/>
+                                                v-model="search.franchise_reference" placeholder="Search Reference"
+                                                @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
-                                             <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="feature-search-outline" @click="loadAsyncData"/>
-                                             </b-tooltip>
+                                            <b-tooltip label="Search Reference" type="is-success">
+                                                <b-button type="is-primary" icon-right="feature-search-outline" @click="loadAsyncData"/>
+                                            </b-tooltip>
+                                        </p>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="level-right">
+                                <div class="level-item">
+                                    <b-field label="Search Operator">
+                                        <b-input type="text"
+                                                v-model="search.operator" placeholder="Search Operator"
+                                                @keyup.native.enter="loadAsyncData"/>
+                                        <p class="control">
+                                            <b-tooltip label="Search Operator" type="is-success">
+                                                <b-button type="is-primary" icon-right="feature-search-outline" @click="loadAsyncData"/>
+                                            </b-tooltip>
                                         </p>
                                     </b-field>
                                 </div>
@@ -41,7 +62,7 @@
                         </div>
 
                         <div class="buttons mt-3">
-                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
+                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success is-outlined">NEW</b-button>
                         </div>
 
                         <b-table
@@ -68,14 +89,15 @@
                                 {{ props.row.franchise_reference }}
                             </b-table-column>
 
-                            <b-table-column field="description" label="Description" v-slot="props">
-                                {{ props.row.description }}
+                            <b-table-column field="date_acquired" label="Date Acquired" v-slot="props">
+                                {{ props.row.date_acquired }}
                             </b-table-column>
 
-                            <b-table-column field="is_active" label="Active" v-slot="props">
-                                {{ props.row.is_active }}
+                            <b-table-column field="operator_name" label="Operator Name" v-slot="props">
+                                {{ props.row.operator_name }}
                             </b-table-column>
 
+                            
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
@@ -89,13 +111,9 @@
 
                         </b-table>
 
-
-
                     </div>
                 </div><!--close column-->
             </div>
-
-
         </div><!--section div-->
 
 
@@ -162,6 +180,7 @@ export default {
 
             search: {
                 franchise_reference: '',
+                operator: '',
             },
 
             isModalCreate: false,
@@ -185,7 +204,8 @@ export default {
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `type=${this.search.franchise_reference}`,
+                `franchise=${this.search.franchise_reference}`,
+                `operator=${this.search.operator}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')

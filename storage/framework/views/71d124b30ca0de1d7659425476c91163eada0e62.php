@@ -1,7 +1,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-    <franchise-create-update data-id="<?php echo e($dataid); ?>"></franchise-create-update>
+    <franchise-create-update data-id="<?php echo e($dataid); ?>" prop-data='<?php echo json_encode($data, 15, 512) ?>'></franchise-create-update>
 <?php $__env->stopSection(); ?>
 
 

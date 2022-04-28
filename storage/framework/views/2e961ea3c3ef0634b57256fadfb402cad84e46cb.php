@@ -28,7 +28,6 @@
             font-family: 'Roboto Slab', serif;
             font-family: 'Ubuntu', sans-serif;
         }
-        
     </style>
 
 </head>

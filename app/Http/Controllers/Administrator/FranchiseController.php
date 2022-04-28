@@ -24,8 +24,13 @@ class FranchiseController extends Controller
     public function getFranchises(Request $req){
         $sort = explode('.', $req->sort_by);
 
+        $franchise = $req->franchise;
+        $operator = $req->operator;
+
+
         $data = \DB::table('franchises as a')
-            ->where('a.franchise_reference', 'like', $req->franchise_reference . '%')
+            ->where('a.franchise_reference', 'like', $franchise . '%')
+            ->where('a.operator_name', 'like', '%'. $operator . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
@@ -33,12 +38,18 @@ class FranchiseController extends Controller
     }
 
     public function show($id){
-        return Franchise::find($id);
+        $data = \DB::table('franchises as a')
+            ->leftJoin('provinces as b', 'a.province', 'b.provCode')
+            ->leftJoin('cities as c', 'a.city', 'c.citymunCode')
+            ->leftJoin('barangays as d', 'a.barangay', 'd.brgyCode')
+            ->first();
+        return $data;
     }
 
 
     public function create(){
         return view('administrator.franchise-create-update')
+            ->with('data', '')
             ->with('dataid', 0);
     }
 
@@ -88,7 +99,16 @@ class FranchiseController extends Controller
     }
 
     public function edit($id){
+
+        $data = \DB::table('franchises as a')
+            ->leftJoin('provinces as b', 'a.province', 'b.provCode')
+            ->leftJoin('cities as c', 'a.city', 'c.citymunCode')
+            ->leftJoin('barangays as d', 'a.barangay', 'd.brgyCode')
+            ->first();
+
+
         return view('administrator.franchise-create-update')
+            ->with('data', $data)
             ->with('dataid', $id);
     }
 
@@ -104,14 +124,18 @@ class FranchiseController extends Controller
             'plate_no' => ['required'],
         ]);
 
+        $date =  $req->date_acquired;
+        $ndate = date("Y-m-d", strtotime($date)); //convert to date format UNIX
+
+
         $data = Franchise::find($id);
         $data->franchise_reference = $req->franchise_reference;
-        $data->date_acquired = strtoupper($req->date_acquired);
+        $data->date_acquired = $ndate;
         $data->operator_name = strtoupper($req->operator_name);
 
-        $data->province = strtoupper($req->province);
-        $data->city = strtoupper($req->city);
-        $data->barangay = strtoupper($req->barangay);
+        $data->province = $req->province;
+        $data->city = $req->city;
+        $data->barangay = $req->barangay;
         $data->street = strtoupper($req->street);
         $data->vehicle_reference = strtoupper($req->vehicle_reference);
         $data->chassis_reference = strtoupper($req->chassis_reference);

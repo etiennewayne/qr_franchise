@@ -58,11 +58,6 @@
                     <b-menu-list>
                         <b-menu-item label="User" icon="account" tag="a" href="/users"></b-menu-item>
                     </b-menu-list>
-   
-
-                    <b-menu-list>
-                        <b-menu-item label="Report Track" icon="chart-timeline" tag="a" href="/report-track"></b-menu-item>
-                    </b-menu-list>
 
 
 <!--                        <b-menu-list>-->
