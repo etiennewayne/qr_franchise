@@ -8,6 +8,10 @@
                     </div>
 
                     <div class="panel-body">
+
+                        <div class="img-container">
+                            <img class="img" src="/img/qrlogo.png" />
+                        </div>
                         <b-field label="Username" label-position="on-border"
                             :type="this.errors.username ? 'is-danger':''"
                             :message="this.errors.username ? this.errors.username[0] : ''">
@@ -86,8 +90,14 @@ export default {
         margin: 15px;
     }
 
+    .img-container{
+        display: flex;
+        justify-content: center;
+    }
 
-
+    .img{
+        height: 200px;
+    }
 
 
 </style>

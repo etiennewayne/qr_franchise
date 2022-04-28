@@ -62,7 +62,7 @@
                         </div>
 
                         <div class="buttons mt-3">
-                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-success is-outlined">NEW</b-button>
+                            <b-button tag="a" href="/franchise/create" icon-right="account-arrow-up-outline" class="is-primary is-outlined">NEW</b-button>
                         </div>
 
                         <b-table
