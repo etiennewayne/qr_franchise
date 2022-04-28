@@ -101,6 +101,9 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
+                                        <b-button class="button is-small is-info mr-1" tag="a" icon-right="qr" @click="showQR(props.row)"></b-button>
+                                    </b-tooltip>
+                                    <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.franchise_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
@@ -158,6 +161,44 @@
         <!--close modal-->
 
 
+
+
+        <!--modal create-->
+        <b-modal v-model="modalQR" has-modal-card
+                 trap-focus
+                 :width="640"
+                 aria-role="dialog"
+                 aria-label="Modal"
+                 aria-modal
+                type = "is-link">
+
+            <form>
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">QR</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="modalQR = false"/>
+                    </header>
+
+                    <section class="modal-card-body">
+                        <div class="printarea">
+                            <qrcode value="user.qr" :options="{ width: 200 }"></qrcode>
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Close"
+                            @click="modalQR=false"/>
+                        
+                    </footer>
+                </div>
+            </form><!--close form-->
+        </b-modal>
+        <!--close modal-->
+
+
     </div>
 </template>
 
@@ -184,6 +225,7 @@ export default {
             },
 
             isModalCreate: false,
+            modalQR: false,
 
             fields: {},
             errors: {},
@@ -351,6 +393,12 @@ export default {
                     }
                 });
             }
+        },
+
+
+
+        showQR: function(row){
+            this.modalQR = true;
         }
 
     },
@@ -364,6 +412,13 @@ export default {
 
 <style scoped>
     
+
+@media print {
+    .section {
+        display: none;
+    }
+    .printarea * { display:block; }
+}
 
 
 </style>
