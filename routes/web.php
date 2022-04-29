@@ -56,6 +56,10 @@ Route::get('/get-user-offices', [App\Http\Controllers\Administrator\UserControll
 Route::resource('/franchise', App\Http\Controllers\Administrator\FranchiseController::class);
 Route::get('/get-franchises', [App\Http\Controllers\Administrator\FranchiseController::class, 'getFranchises']);
 
+//QR Scanner
+Route::resource('/qr-scanner', App\Http\Controllers\Administrator\QRScannerController::class);
+Route::post('/validate-qr', [App\Http\Controllers\Administrator\QRScannerController::class, 'validateQR']);
+
 
 // Route::resource('/ordinance', App\Http\Controllers\Administrator\OrdinanceController::class);
 // Route::get('/get-ordinances', [App\Http\Controllers\Administrator\OrdinanceController::class, 'getOrdinances']);
@@ -92,7 +96,7 @@ Route::post('/office-appointment-update-time/{id}', [App\Http\Controllers\Office
 Route::get('/get-no-request', [App\Http\Controllers\Office\OfficeAppointmentController::class, 'noOfRequest']);
 
 Route::resource('/office-scanner', App\Http\Controllers\Office\OfficeScannerController::class);
-Route::post('/validate-qr/{qr}', [App\Http\Controllers\Office\OfficeScannerController::class, 'validateQR']);
+
 //Route::get('/get-scanned-appointment', [App\Http\Controllers\Office\OfficeScannerController::class, 'getScannedAppointment']);
 
 Route::get('/get-current-user', [App\Http\Controllers\Office\OfficeScannerController::class, 'getCurrentUser']);

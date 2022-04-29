@@ -184,7 +184,7 @@
 
                     <section class="modal-card-body">
                         <div class="printarea">
-                            <qrcode value="user.qr" :options="{ width: 200 }"></qrcode>
+                            <qrcode :value="franchise_reference" :options="{ width: 200 }"></qrcode>
                         </div>
                     </section>
                     <footer class="modal-card-foot">
@@ -223,6 +223,8 @@ export default {
                 franchise_reference: '',
                 operator: '',
             },
+
+            franchise_reference: '',
 
             isModalCreate: false,
             modalQR: false,
@@ -399,6 +401,7 @@ export default {
 
         showQR: function(row){
             this.modalQR = true;
+            this.franchise_reference = row.franchise_reference;
         }
 
     },

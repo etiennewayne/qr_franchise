@@ -55,11 +55,14 @@
                     <b-menu-list>
                         <b-menu-item label="Franchise" icon="microsoft-office" tag="a" href="/franchise"></b-menu-item>
                     </b-menu-list>
+
+                    <b-menu-list>
+                        <b-menu-item label="QR Scanner" icon="qrcode-scan" tag="a" href="/qr-scanner"></b-menu-item>
+                    </b-menu-list>
+
                     <b-menu-list>
                         <b-menu-item label="User" icon="account" tag="a" href="/users"></b-menu-item>
                     </b-menu-list>
-
-
 <!--                        <b-menu-list>-->
 <!--                            <b-menu-item label="Expo" icon="link" target="_blank" to="/expo"></b-menu-item>-->
 <!--                        </b-menu-list>-->
@@ -67,6 +70,7 @@
                     <b-menu-list label="Actions">
                         <b-menu-item @click="logout" label="Logout"></b-menu-item>
                     </b-menu-list>
+                    
                 </b-menu>
             </div>
         </b-sidebar>
