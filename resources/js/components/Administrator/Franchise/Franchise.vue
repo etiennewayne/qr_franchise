@@ -24,7 +24,7 @@
                             </div>
 
                             <div class="level-right">
-                                
+
                             </div>
                         </div>
 
@@ -97,11 +97,11 @@
                                 {{ props.row.operator_name }}
                             </b-table-column>
 
-                            
+
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-info mr-1" tag="a" icon-right="qr" @click="showQR(props.row)"></b-button>
+                                        <b-button class="button is-small is-info mr-1" tag="a" icon-right="printer" :href="`/franchise-show-qr/${props.row.franchise_reference}`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.franchise_id)"></b-button>
@@ -191,7 +191,7 @@
                         <b-button
                             label="Close"
                             @click="modalQR=false"/>
-                        
+
                     </footer>
                 </div>
             </form><!--close form-->
@@ -414,7 +414,7 @@ export default {
 </script>
 
 <style scoped>
-    
+
 
 @media print {
     .section {

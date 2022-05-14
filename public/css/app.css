@@ -26635,6 +26635,16 @@ html {
   background-color: #f8f8f8 !important;
 }
 
+@media print {
+  .mynav {
+    display: none;
+    border: 1px solid red;
+  }
+
+  .printarea {
+    display: block;
+  }
+}
 /* Bulma Utilities */
 .pagination-previous,
 .pagination-next,

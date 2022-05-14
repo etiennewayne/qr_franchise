@@ -9,9 +9,9 @@
                 <div class="burger-div"></div>
                 <div class="burger-div"></div>
             </div>
-            
+
         </div>
-         
+
         <b-sidebar
             type="is-light"
             :fullheight="fullheight"
@@ -70,13 +70,13 @@
                     <b-menu-list label="Actions">
                         <b-menu-item @click="logout" label="Logout"></b-menu-item>
                     </b-menu-list>
-                    
+
                 </b-menu>
             </div>
         </b-sidebar>
 
     </div>
-    
+
 
 </template>
 
@@ -123,6 +123,7 @@ export default {
         padding: 1px;
     }
 
+
     .mynav{
         padding: 25px;
         border-bottom: 2px solid #100069;
@@ -133,6 +134,14 @@ export default {
         font-weight: bold;
         font-size: 1.2em;
     }
+
+    @media print {
+        .mynav{
+            display: none;
+            border: 1px solid red;
+        }
+    }
+
 
   /* .hero{
         background-image: url("/img/bg-hero.jpg");

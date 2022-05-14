@@ -156,4 +156,9 @@ class FranchiseController extends Controller
         Franchise::destroy($id);
     }
 
+    public function showQRPage($qr){
+        return view('administrator.franchise-show-qr')
+            ->with('qr', $qr);
+    }
+
 }

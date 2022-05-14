@@ -30,6 +30,14 @@ html{
     background-color: rgb(248, 248, 248) !important;
 }
 
+@media print {
+    .mynav{
+        display: none;
+        border: 1px solid red;
+    }
+    .printarea { display:block; }
+}
+
 
 
 

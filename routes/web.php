@@ -55,6 +55,9 @@ Route::get('/get-user-offices', [App\Http\Controllers\Administrator\UserControll
 //Franchise
 Route::resource('/franchise', App\Http\Controllers\Administrator\FranchiseController::class);
 Route::get('/get-franchises', [App\Http\Controllers\Administrator\FranchiseController::class, 'getFranchises']);
+Route::get('/franchise-show-qr/{qrref}', [App\Http\Controllers\Administrator\FranchiseController::class, 'showQRPage']);
+
+
 
 //QR Scanner
 Route::resource('/qr-scanner', App\Http\Controllers\Administrator\QRScannerController::class);
