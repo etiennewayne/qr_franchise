@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 
 
 class QRScannerController extends Controller
@@ -33,14 +33,18 @@ class QRScannerController extends Controller
 
         // $dateNow = date('Y-m-d');
         // $timeNow = date('H:i');
-        
-        return Franchise::where('franchise_reference', $req->content)
+
+        $data = Franchise::where('franchise_reference', $req->data)
             ->first();
+        if($data)
+            return $data;
+        else
+            return '';
         //return $exist;
     }
 
     public function show($id){
-        $data = \DB::table('franchises as a')
+        $data = DB::table('franchises as a')
             ->leftJoin('provinces as b', 'a.province', 'b.provCode')
             ->leftJoin('cities as c', 'a.city', 'c.citymunCode')
             ->leftJoin('barangays as d', 'a.barangay', 'd.brgyCode')

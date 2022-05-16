@@ -51,6 +51,8 @@ Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardContro
 Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
 Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
 Route::get('/get-user-offices', [App\Http\Controllers\Administrator\UserController::class, 'getOffices']);
+Route::post('/reset-password/{id}', [App\Http\Controllers\Administrator\UserController::class, 'resetPassword']);
+
 
 //Franchise
 Route::resource('/franchise', App\Http\Controllers\Administrator\FranchiseController::class);

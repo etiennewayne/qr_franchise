@@ -128,4 +128,19 @@ class UserController extends Controller
             'status' => 'deleted'
         ]);
     }
+
+    public function resetPassword(Request $req, $id){
+        $req->validate([
+            'password' => ['required', 'confirmed']
+        ]);
+
+
+        $user = User::find($id);
+        $user->password = Hash::make($req->password);
+        $user->save();
+
+        return response()->json([
+            'status' => 'changed'
+        ],200);
+    }
 }

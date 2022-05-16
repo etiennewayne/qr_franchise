@@ -1,7 +1,11 @@
-
-
 <?php $__env->startSection('content'); ?>
-<Login></Login>
+    <?php if(auth()->guard()->check()): ?>
+        <welcome-page></welcome-page>
+    <?php else: ?>
+
+        <Login></Login>
+    <?php endif; ?>
+
 
 <?php $__env->stopSection(); ?>
 

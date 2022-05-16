@@ -1,6 +1,6 @@
 <template>
     <div>
-        
+
         <div class="section">
             <div class="columns is-centered">
                 <div class="column is-6">
@@ -27,9 +27,59 @@
                         <b-button @click="turnCameraOff" label="TURN OFF"></b-button>
 
                     </div>
-                    
+
                 </div><!--col-->
             </div><!--close div -->
+
+            <div class="columns is-centered">
+                <div class="column is-6">
+                    <table class="table is-fullwidth">
+                        <thead>
+                            <th>Properties</th>
+                            <th>Information</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FRANCHISE REF</td>
+                                <td>{{ data.franchise_reference }}</td>
+                            </tr>
+                            <tr>
+                                <td>DATE ACQUIRED</td>
+                                <td>{{ data.date_acquired }}</td>
+                            </tr>
+                            <tr>
+                                <td>OPERATOR</td>
+                                <td>{{ data.operator_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>VEHICLE REF</td>
+                                <td>{{ data.vehicle_reference }}</td>
+                            </tr>
+                            <tr>
+                                <td>CHASSIS REF</td>
+                                <td>{{ data.chassis_reference }}</td>
+                            </tr>
+                            <tr>
+                                <td>MAKE</td>
+                                <td>{{ data.make }}</td>
+                            </tr>
+                            <tr>
+                                <td>PLATE NO.</td>
+                                <td>{{ data.plate_no }}</td>
+                            </tr>
+                            <tr>
+                                <td>ROUTE OPERATION</td>
+                                <td>{{ data.route_operation }}</td>
+                            </tr>
+                            <tr>
+                                <td>CAB NO.</td>
+                                <td>{{ data.cab_no }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
         </div><!--section -->
 
     </div><!--root div-->
@@ -39,13 +89,15 @@
 export default {
     data(){
         return{
-            
+
             isValid: undefined,
             camera: 'off',
             result: null,
             isProcessing: false,
 
             isModalValidModal: false,
+
+            data: {},
         }
     },
 
@@ -71,21 +123,24 @@ export default {
             //await this.timeout(3000);
 
             axios.post('/validate-qr/', {
-                content : content
+                data : content
             }).then(res=>{
                 this.user = res.data;
                 this.isProcessing = false;
 
-                if(res.data != ''){
+                if(res.data !== ''){
                     this.isValid = true;
-                    this.loadAsyncData();
+                    this.data = res.data;
+                    //this.loadAsyncData();
                     //this.submitTrack();
                 }else{
                     this.isProcessing = false;
                     this.isValid = false;
+                    this.data = {};
                 }
             }).catch(err=>{
                 this.isProcessing = false;
+                this.data = {};
             })
             //this.isValid = content.startsWith('http') //this will return boolean value
 
